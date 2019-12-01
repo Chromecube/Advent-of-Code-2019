@@ -39,7 +39,7 @@ public class ResourceUtil {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                if (NumberUtil.isLong(line)) result.add(NumberUtil.getLong(line));
+                if (NumberUtil.isLong(line)) result.add(NumberUtil.getLong(line, -1));
             }
         } catch (IOException e) {
             e.printStackTrace();
