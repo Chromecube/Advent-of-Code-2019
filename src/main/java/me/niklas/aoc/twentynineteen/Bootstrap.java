@@ -2,6 +2,7 @@ package me.niklas.aoc.twentynineteen;
 
 import me.niklas.aoc.twentynineteen.util.AocSolution;
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
+import me.niklas.aoc.twentynineteen.util.Timer;
 
 import java.util.Scanner;
 
@@ -31,8 +32,9 @@ public class Bootstrap {
         if ((day = NumberUtil.tryParseInt(s.nextLine(), -1)) >= 0 && day < days.length) {
             System.out.println(String.format("Executing \"%s\"...", days[day].getName()));
             System.out.println("---------------- OUTPUT BEGIN -------------------------");
+            Timer.instance().start();
             days[day].solve();
-            System.out.println("---------------- OUTPUT END -------------------------");
+            System.out.println("---------------- OUTPUT END (" + Timer.instance().stop() + "ms to execute) -------------------------");
         } else {
             System.out.println("Your input is out of range or invalid.");
         }
