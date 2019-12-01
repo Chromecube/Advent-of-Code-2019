@@ -34,7 +34,7 @@ public class Bootstrap {
             System.out.println("---------------- OUTPUT BEGIN -------------------------");
             Timer.instance().start();
             days[day].solve();
-            System.out.println("---------------- OUTPUT END (" + Timer.instance().stop() + "ms to execute) -------------------------");
+            System.out.println("---------------- OUTPUT END (" + Timer.instance().stopNoReset() + "ms to execute) -------------------------");
         } else {
             System.out.println("Your input is out of range or invalid.");
         }

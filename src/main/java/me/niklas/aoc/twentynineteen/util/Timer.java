@@ -8,10 +8,14 @@ import java.util.concurrent.atomic.AtomicLong;
 public class Timer {
 
     private static final Timer instance = new Timer();
-    private final AtomicLong start = new AtomicLong();
-
     public static Timer instance() {
         return instance;
+    }
+
+    private final AtomicLong start = new AtomicLong();
+
+    public Timer() {
+        start();
     }
 
     public void start() {
@@ -20,5 +24,9 @@ public class Timer {
 
     public long stop() {
         return System.currentTimeMillis() - start.getAndSet(System.currentTimeMillis());
+    }
+
+    public long stopNoReset() {
+        return System.currentTimeMillis() - start.get();
     }
 }

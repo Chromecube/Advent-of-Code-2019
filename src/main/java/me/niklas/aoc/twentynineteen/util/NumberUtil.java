@@ -13,17 +13,26 @@ public class NumberUtil {
         }
     }
 
-    public static long getLong(String input) {
+    public static boolean isInteger(String input) {
         try {
-            return Long.parseLong(input);
+            Integer.parseInt(input);
+            return true;
         } catch (Exception e) {
-            return -1L;
+            return false;
         }
     }
 
-    public static boolean isLong(String line) {
+    public static long getLong(String input, int defaultValue) {
         try {
-            Long.parseLong(line);
+            return Long.parseLong(input);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    public static boolean isLong(String input) {
+        try {
+            Long.parseLong(input);
             return true;
         } catch (Exception e) {
             return false;
