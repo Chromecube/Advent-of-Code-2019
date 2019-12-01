@@ -23,6 +23,6 @@ public class ExitDay implements AocSolution {
 
     @Override
     public int getDay() {
-        return -1;
+        return 0;
     }
 }

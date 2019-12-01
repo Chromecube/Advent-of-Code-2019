@@ -1,6 +1,5 @@
 package me.niklas.aoc.twentynineteen;
 
-import me.niklas.aoc.twentynineteen.days.ExitDay;
 import me.niklas.aoc.twentynineteen.util.AocSolution;
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
 
@@ -11,9 +10,9 @@ import java.util.Scanner;
  */
 public class Bootstrap {
 
-    private static final AocSolution[] days = new AocSolution[]{new ExitDay()};
-
     private Bootstrap() {
+        AocSolution[] days = new DayManager().getDays();
+
         if (days.length == 0) {
             System.out.println("Oops! No challenges have been solved yet. Exiting...");
             return;

@@ -5,11 +5,11 @@ package me.niklas.aoc.twentynineteen.util;
  */
 public interface AocSolution {
 
-    boolean isSolved();
+    int getDay();
 
     String getName();
 
-    void solve();
+    boolean isSolved();
 
-    int getDay();
+    void solve();
 }
