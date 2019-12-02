@@ -21,7 +21,7 @@ public class ResourceUtil {
             String line;
 
             while ((line = reader.readLine()) != null) {
-                if (NumberUtil.isLong(line)) result.add(line);
+                result.add(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
