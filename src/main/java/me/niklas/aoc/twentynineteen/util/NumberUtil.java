@@ -38,4 +38,15 @@ public class NumberUtil {
             return false;
         }
     }
+
+    public static int[] getNumberDigits(int number) {
+        int length = String.valueOf(number).length();
+        int[] result = new int[length];
+
+        for (int i = 1; i <= length; i++) {
+            int multi = (int) Math.pow(10, i);
+            result[length - i] = (number % multi) / (multi / 10);
+        }
+        return result;
+    }
 }

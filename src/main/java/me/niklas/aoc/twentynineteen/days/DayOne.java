@@ -34,7 +34,6 @@ public class DayOne implements AocSolution {
             System.err.println("The number of read in values should be 100.");
             return;
         }
-        ;
 
         //3: Calculate results
         System.out.println("Required fuel: " + calcFuel(moduleWeights, false)); //3345909
