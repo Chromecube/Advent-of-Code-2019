@@ -39,14 +39,18 @@ public class NumberUtil {
         }
     }
 
-    public static int[] getNumberDigits(int number) {
+    public static int[] getNumberDigits(int number, int requiredLength) {
         int length = String.valueOf(number).length();
-        int[] result = new int[length];
+        int[] result = new int[Math.max(length, requiredLength)];
 
         for (int i = 1; i <= length; i++) {
             int multi = (int) Math.pow(10, i);
-            result[length - i] = (number % multi) / (multi / 10);
+            result[result.length - i] = (number % multi) / (multi / 10);
         }
         return result;
+    }
+
+    public static int[] getNumberDigits(int number) {
+        return getNumberDigits(number, 0);
     }
 }
