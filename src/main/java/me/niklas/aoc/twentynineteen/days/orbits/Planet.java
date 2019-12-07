@@ -18,7 +18,7 @@ public class Planet {
     public void setOrbitingPlanet(Planet p) {
         if (p.equals(this)) {
             System.out.println("Planet can not orbit itself");
-            System.exit(-1);
+            System.exit(1);
         }
         orbiting = p;
     }
