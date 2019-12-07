@@ -45,10 +45,8 @@ public class DayTwo implements AocSolution {
 
         int[] backup = Arrays.copyOf(in, in.length);
 
-        System.out.println("Read in " + in.length + " values, now executing the Intcode..");
-        System.out.println("Current: " + in[0]);
         IntcodeComputer executor = new IntcodeComputer();
-        System.out.println("Solved: " + executor.execute(in)[0]); //5866714
+        System.out.println("Solved: " + executor.execute(in).memory[0]); //5866714
         System.out.println("Brute force result: " + applyBruteForce(backup)); //5208
     }
 
@@ -59,7 +57,7 @@ public class DayTwo implements AocSolution {
                 int[] copy = Arrays.copyOf(codes, codes.length);
                 copy[1] = noun;
                 copy[2] = verb;
-                if (executor.execute(copy)[0] == 19690720) { //Solved!
+                if (executor.execute(copy).memory[0] == 19690720) { //Solved!
                     System.out.println(String.format("Noun is %d, verb is %d.", noun, verb));
                     return (100 * noun) + verb;
                 }
