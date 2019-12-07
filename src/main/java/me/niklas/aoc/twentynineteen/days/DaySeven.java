@@ -28,7 +28,7 @@ public class DaySeven implements AocSolution {
 
     @Override
     public boolean isSolved() {
-        return false;
+        return true;
     }
 
     @Override
