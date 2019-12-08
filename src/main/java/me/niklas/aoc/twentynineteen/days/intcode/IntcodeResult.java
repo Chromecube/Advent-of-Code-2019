@@ -1,4 +1,4 @@
-package me.niklas.aoc.twentynineteen.intcode;
+package me.niklas.aoc.twentynineteen.days.intcode;
 
 /**
  * Created by Niklas on 07.12.2019 in twentynineteen

@@ -1,6 +1,6 @@
 package me.niklas.aoc.twentynineteen.days;
 
-import me.niklas.aoc.twentynineteen.intcode.IntcodeComputer;
+import me.niklas.aoc.twentynineteen.days.intcode.IntcodeComputer;
 import me.niklas.aoc.twentynineteen.util.AocSolution;
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
 import me.niklas.aoc.twentynineteen.util.ResourceUtil;

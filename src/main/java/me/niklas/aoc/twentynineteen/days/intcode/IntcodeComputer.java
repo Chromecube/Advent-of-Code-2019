@@ -1,4 +1,4 @@
-package me.niklas.aoc.twentynineteen.intcode;
+package me.niklas.aoc.twentynineteen.days.intcode;
 
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
 
@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import static me.niklas.aoc.twentynineteen.intcode.IntcodeInstruction.Mode.POSITION;
-import static me.niklas.aoc.twentynineteen.intcode.IntcodeInstruction.Opcode.*;
+import static me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction.Mode.POSITION;
+import static me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction.Opcode.*;
 
 /**
  * Created by Niklas on 05.12.2019 in twentynineteen

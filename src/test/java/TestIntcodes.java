@@ -1,5 +1,5 @@
-import me.niklas.aoc.twentynineteen.intcode.IntcodeComputer;
-import me.niklas.aoc.twentynineteen.intcode.IntcodeInstruction;
+import me.niklas.aoc.twentynineteen.days.intcode.IntcodeComputer;
+import me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction;
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
 import org.junit.Assert;
 import org.junit.Test;

@@ -1,5 +1,6 @@
-package me.niklas.aoc.twentynineteen.days.three;
+package me.niklas.aoc.twentynineteen.days;
 
+import me.niklas.aoc.twentynineteen.days.wiring.Path;
 import me.niklas.aoc.twentynineteen.util.AocSolution;
 import me.niklas.aoc.twentynineteen.util.ResourceUtil;
 

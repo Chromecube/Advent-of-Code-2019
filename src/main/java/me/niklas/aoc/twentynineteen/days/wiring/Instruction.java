@@ -1,4 +1,4 @@
-package me.niklas.aoc.twentynineteen.days.three;
+package me.niklas.aoc.twentynineteen.days.wiring;
 
 import me.niklas.aoc.twentynineteen.util.NumberUtil;
 
