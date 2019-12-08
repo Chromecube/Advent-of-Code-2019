@@ -119,7 +119,7 @@ public class NumberUtil {
      * @param initialValue The initial value. All elements of the array will have that value.
      * @return An int array of the specified length.
      */
-    private static int[] fillEmptyArray(int length, int initialValue) {
+    public static int[] fillEmptyArray(int length, int initialValue) {
         if (length < 0) length = 0;
         int[] arr = new int[length];
         Arrays.fill(arr, initialValue);
@@ -131,5 +131,25 @@ public class NumberUtil {
             if (v == val) return true;
         }
         return false;
+    }
+
+    /**
+     * Takes a string as an input and transforms it into an int array. If a character is invalid, 0 will be used as
+     * a default value.
+     * <p>
+     * Example: "12345" -> [1,2,3,4,5]
+     *
+     * @param input The input string. All characters should be numbers!
+     * @return The parsed int array. result.length == input.length()!
+     */
+    public static int[] toIntArray(String input) {
+        int[] result = new int[input.length()];
+        for (int i = 0; i < result.length; i++) {
+            char c = input.charAt(i);
+            if (c >= 48 && c <= 57) {
+                result[i] = c - 48;
+            }
+        }
+        return result;
     }
 }
