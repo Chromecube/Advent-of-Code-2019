@@ -29,7 +29,7 @@ public class Bootstrap {
 
         Scanner s = new Scanner(System.in);
         int day;
-        if ((day = NumberUtil.tryParseInt(s.nextLine(), -1)) >= 0 && day < days.length) {
+        if ((day = NumberUtil.getInt(s.nextLine(), -1)) >= 0 && day < days.length) {
             System.out.println(String.format("Executing \"%s\"...", days[day].getName()));
             System.out.println("---------------- OUTPUT BEGIN -------------------------");
             Timer.instance().start();

@@ -5,15 +5,15 @@ package me.niklas.aoc.twentynineteen.days.intcode;
  */
 public class IntcodeResult {
 
-    public final int[] memory;
-    public final int[] outputs;
+    public final long[] memory;
+    public final long[] outputs;
 
-    IntcodeResult(int[] memory, int[] outputs) {
+    IntcodeResult(long[] memory, long[] outputs) {
         this.memory = memory;
         this.outputs = outputs;
     }
 
-    public int lastOutput() {
+    public long lastOutput() {
         return outputs[outputs.length - 1];
     }
 }

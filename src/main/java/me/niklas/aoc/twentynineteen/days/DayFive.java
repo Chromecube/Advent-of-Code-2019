@@ -27,7 +27,7 @@ public class DayFive implements AocSolution {
     public void solve() {
         IntcodeComputer executor = new IntcodeComputer();
 
-        int[] code = executor.parseString(ResourceUtil.readResource("dayfive", getClass()).get(0));
+        long[] code = executor.parseString(ResourceUtil.readResource("dayfive", getClass()).get(0));
 
         System.out.println("PART ONE: " + executor.execute(code, 1).lastOutput()); //15314507
         System.out.println("PART TWO: " + executor.execute(code, 5).lastOutput()); //652726

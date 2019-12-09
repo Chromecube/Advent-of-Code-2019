@@ -33,15 +33,15 @@ public class DaySeven implements AocSolution {
 
     @Override
     public void solve() {
-        int[] code = executor.parseString(ResourceUtil.readResource("dayseven", getClass()).get(0));
+        long[] code = executor.parseString(ResourceUtil.readResource("dayseven", getClass()).get(0));
 
-        int max = 0;
+        long max = 0;
         int[] maxArr = new int[0];
 
         List<int[]> combinations = NumberUtil.getCombinations(5, new int[]{0, 1, 2, 3, 4});
 
         for (int[] arr : combinations) {
-            int val = executeForSequence(code, arr);
+            long val = executeForSequence(code, arr);
             if (val > max) {
                 max = val;
                 maxArr = arr;
@@ -55,17 +55,17 @@ public class DaySeven implements AocSolution {
         maxArr = new int[0];
 
         for (int[] arr : feedbackCombinations) {
-            int val = executeForAmplifiers(code, arr);
+            long val = executeForAmplifiers(code, arr);
             if (val > max) {
                 max = val;
                 maxArr = arr;
             }
         }
-        System.out.println("PART TWO: " + max + " for " + Arrays.toString(maxArr));
+        System.out.println("PART TWO: " + max + " for " + Arrays.toString(maxArr)); //63103596
     }
 
-    private int executeForSequence(int[] code, int[] in) {
-        int last = 0;
+    private long executeForSequence(long[] code, int[] in) {
+        long last = 0;
         for (int value : in) {
             IntcodeResult out = executor.execute(code, value, last); //Execute for each input
             last = out.outputs[0];
@@ -73,7 +73,7 @@ public class DaySeven implements AocSolution {
         return last;
     }
 
-    private int executeForAmplifiers(int[] code, int[] in) {
+    private long executeForAmplifiers(long[] code, int[] in) {
 
         IntcodeComputer[] executors = new IntcodeComputer[in.length];
 
@@ -83,7 +83,7 @@ public class DaySeven implements AocSolution {
         }
 
         int i = 0;
-        int last = 0;
+        long last = 0;
         while (!executors[in.length - 1].isHalted()) {
             if (i == in.length) i = 0;
             executors[i].addInput(last); //Add last result as input

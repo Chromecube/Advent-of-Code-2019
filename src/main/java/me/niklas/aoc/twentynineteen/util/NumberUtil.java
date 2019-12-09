@@ -9,10 +9,11 @@ import java.util.List;
  */
 public class NumberUtil {
 
-    public static int tryParseInt(String input, int defaultValue) {
+    public static int getInt(String input, int defaultValue) {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException expected) {
+            expected.printStackTrace();
             return defaultValue;
         }
     }
@@ -51,13 +52,13 @@ public class NumberUtil {
      *                       the length of number will be used. If number has less digits, the first indices will be 0.
      * @return The individual digits (one/index).
      */
-    public static int[] getNumberDigits(int number, int requiredLength) {
+    public static int[] getNumberDigits(long number, int requiredLength) {
         int length = String.valueOf(number).length();
         int[] result = new int[Math.max(length, requiredLength)];
 
         for (int i = 1; i <= length; i++) {
             int multi = (int) Math.pow(10, i);
-            result[result.length - i] = (number % multi) / (multi / 10);
+            result[result.length - i] = (int) ((number % multi) / (multi / 10));
         }
         return result;
     }

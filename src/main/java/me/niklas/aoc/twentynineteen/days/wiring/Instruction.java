@@ -39,7 +39,7 @@ public class Instruction {
                 return null;
         }
 
-        int length = NumberUtil.tryParseInt(input.substring(1), -1);
+        int length = NumberUtil.getInt(input.substring(1), -1);
         if (length < 0) return null;
         return new Instruction(res, length);
     }
