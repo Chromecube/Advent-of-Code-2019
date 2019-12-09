@@ -15,9 +15,9 @@ public class IntcodeInstruction {
             throw new IllegalArgumentException("Invalid input length (has to be 5)");
         }
 
-        third = input[0] == 0 ? Mode.POSITION : Mode.IMMEDIATE;
-        second = input[1] == 0 ? Mode.POSITION : Mode.IMMEDIATE;
-        first = input[2] == 0 ? Mode.POSITION : Mode.IMMEDIATE;
+        third = input[0] == 0 ? Mode.POSITION : input[0] == 1 ? Mode.IMMEDIATE : Mode.RELATIVE;
+        second = input[1] == 0 ? Mode.POSITION : input[1] == 1 ? Mode.IMMEDIATE : Mode.RELATIVE;
+        first = input[2] == 0 ? Mode.POSITION : input[2] == 1 ? Mode.IMMEDIATE : Mode.RELATIVE;
         opcode = Opcode.parse((input[3] * 10) + input[4]);
     }
 
@@ -38,15 +38,15 @@ public class IntcodeInstruction {
     }
 
     public int nextOffset() {
-        return opcode.ordinal() < 2 || opcode.ordinal() > 5 ? 4 : opcode.ordinal() > 3 ? 3 : 2; //ADD and MULTIPLY -> 4 indices, IN/OUT only two
+        return opcode.ordinal() == 8 ? 2 : opcode.ordinal() < 2 || opcode.ordinal() > 5 ? 4 : opcode.ordinal() > 3 ? 3 : 2; //ADD and MULTIPLY -> 4 indices, IN/OUT only two
     }
 
     public enum Mode {
-        POSITION, IMMEDIATE
+        POSITION, IMMEDIATE, RELATIVE
     }
 
     public enum Opcode {
-        ADD, MULTIPLY, INPUT, OUTPUT, JUMP_IF_TRUE, JUMP_IF_FALSE, LESS_THAN, EQUALS, END, UNKNOWN;
+        ADD, MULTIPLY, INPUT, OUTPUT, JUMP_IF_TRUE, JUMP_IF_FALSE, LESS_THAN, EQUALS, RELATIVE_BASE, END, UNKNOWN;
 
         static Opcode parse(int in) {
             switch (in) {
@@ -66,6 +66,8 @@ public class IntcodeInstruction {
                     return LESS_THAN;
                 case 8:
                     return EQUALS;
+                case 9:
+                    return RELATIVE_BASE;
                 case 99:
                     return END;
                 default:

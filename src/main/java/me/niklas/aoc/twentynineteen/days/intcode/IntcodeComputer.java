@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import static me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction.Mode.IMMEDIATE;
 import static me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction.Mode.POSITION;
 import static me.niklas.aoc.twentynineteen.days.intcode.IntcodeInstruction.Opcode.*;
 
@@ -21,6 +22,16 @@ public class IntcodeComputer {
     private boolean halted = false;
     private int[] memory = new int[0];
     private int pointer = 0;
+    private int relative = 0;
+    private boolean debugMode;
+
+    public IntcodeComputer() {
+        this(false);
+    }
+
+    public IntcodeComputer(boolean debugMode) {
+        this.debugMode = debugMode;
+    }
 
     public int[] parseString(String input) {
         String[] rawIn = input.split(",");
@@ -43,6 +54,7 @@ public class IntcodeComputer {
         pointer = 0;
         memory = Arrays.copyOf(code, code.length);
         halted = false;
+        relative = 0;
     }
 
     public void addInput(int... input) {
@@ -90,26 +102,24 @@ public class IntcodeComputer {
             return;
         }
         IntcodeInstruction in = readInstruction(memory[pointer]);
+        log(String.format("Current operation is %d at %d, opcode: %s", memory[pointer], pointer, in.getOpcode()));
 
         if (in.getOpcode() == ADD) { //Add numbers
-            int first = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int second = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int first = getValue(1, in.getFirst());
+            int second = getValue(2, in.getSecond());
 
             int sum = first + second;
 
-            if (in.getThird() == POSITION) memory[memory[pointer + 3]] = sum;
-            else memory[pointer + 3] = sum;
+            setValue(3, in.getThird(), sum);
         } else if (in.getOpcode() == MULTIPLY) { //Multiply numbers
-            int first = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int second = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int first = getValue(1, in.getFirst());
+            int second = getValue(2, in.getSecond());
 
             int product = first * second;
 
-            if (in.getThird() == POSITION) memory[memory[pointer + 3]] = product;
-            else memory[pointer + 3] = product;
-
+            setValue(3, in.getThird(), product);
         } else if (in.getOpcode() == INPUT) {
-            int loc = in.getFirst() == POSITION ? memory[pointer + 1] : pointer + 1;
+            int loc = getValue(1, in.getFirst(), true);
             if (inputQueue.size() > 0) {
                 memory[loc] = inputQueue.poll();
             } else {
@@ -117,21 +127,20 @@ public class IntcodeComputer {
                 System.exit(1);
             }
         } else if (in.getOpcode() == OUTPUT) {
-            int out = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
+            int out = getValue(1, in.getFirst());
             output.add(out);
 
         } else if (in.getOpcode() == JUMP_IF_TRUE) {
-            int value = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int jump = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int value = getValue(1, in.getFirst());
+            int jump = getValue(2, in.getSecond());
 
             if (value != 0) {
                 pointer = jump;
                 return;
             }
-
         } else if (in.getOpcode() == JUMP_IF_FALSE) {
-            int value = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int jump = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int value = getValue(1, in.getFirst());
+            int jump = getValue(2, in.getSecond());
 
             if (value == 0) {
                 pointer = jump;
@@ -139,23 +148,22 @@ public class IntcodeComputer {
             }
 
         } else if (in.getOpcode() == LESS_THAN) {
-            int first = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int second = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int first = getValue(1, in.getFirst());
+            int second = getValue(2, in.getSecond());
 
             int result = first < second ? 1 : 0;
 
-            if (in.getThird() == POSITION) memory[memory[pointer + 3]] = result;
-            else memory[pointer + 3] = result;
-
+            setValue(3, in.getThird(), result);
         } else if (in.getOpcode() == EQUALS) {
-            int first = in.getFirst() == POSITION ? memory[memory[pointer + 1]] : memory[pointer + 1];
-            int second = in.getSecond() == POSITION ? memory[memory[pointer + 2]] : memory[pointer + 2];
+            int first = getValue(1, in.getFirst());
+            int second = getValue(2, in.getSecond());
 
             int result = first == second ? 1 : 0;
 
-            if (in.getThird() == POSITION) memory[memory[pointer + 3]] = result;
-            else memory[pointer + 3] = result;
+            setValue(3, in.getThird(), result);
 
+        } else if (in.getOpcode() == RELATIVE_BASE) {
+            relative += getValue(1, in.getFirst());
         } else if (in.getOpcode() == END) {
             halted = true;
         } else if (in.getOpcode() == UNKNOWN) {
@@ -167,11 +175,48 @@ public class IntcodeComputer {
         pointer += in.nextOffset();
     }
 
+    private int getValue(int offset, IntcodeInstruction.Mode mode, boolean adressOnly) {
+        if (adressOnly) {
+            return mode == POSITION ? memory[pointer + offset] :
+                    mode == IMMEDIATE ? pointer + offset :
+                            relative + memory[pointer + offset];
+        }
+        return mode == POSITION ? memory[memory[pointer + offset]] :
+                mode == IMMEDIATE ? memory[pointer + offset] :
+                        memory[relative + memory[pointer + offset]];
+    }
+
+    public int getValue(int offset, IntcodeInstruction.Mode mode) {
+        return getValue(offset, mode, false);
+    }
+
+    public void setValue(int offset, IntcodeInstruction.Mode mode, int value) {
+        if (mode == POSITION) memory[memory[pointer + offset]] = value;
+        else if (mode == IMMEDIATE) memory[pointer + offset] = value;
+        else memory[relative + memory[pointer + offset]] = value;
+    }
+
     private IntcodeInstruction readInstruction(int input) {
         return new IntcodeInstruction(NumberUtil.getNumberDigits(input, 5));
     }
 
     public boolean isHalted() {
         return halted;
+    }
+
+    public void setDebugMode(boolean b) {
+        debugMode = b;
+    }
+
+    private void log(Object msg) {
+        if (debugMode) System.out.println(msg);
+    }
+
+    public int getRelativeBase() {
+        return relative;
+    }
+
+    public void setRelativeBase(int base) {
+        relative = base;
     }
 }
